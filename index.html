@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas with Bucket Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="scripts/app.js" defer></script>
+</head>
+<body>
+    <canvas id="drawCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+    
+    <div id="toolbar" style="margin-top: 1%;">
+        <div id="presetColors" style="display: inline;">
+            <input type="radio" name="color" id="color1" value="#2B2D42" style="display: none;">
+            <label for="color1" class="colorLabel" style="background-color: #2B2D42;"></label>
+            
+            <input type="radio" name="color" id="color2" value="#EF233C" style="display: none;">
+            <label for="color2" class="colorLabel" style="background-color: #EF233C;"></label>
+            
+            <input type="radio" name="color" id="color3" value="#8D99AE" style="display: none;">
+            <label for="color3" class="colorLabel" style="background-color: #8D99AE;"></label>
+            
+            <input type="radio" name="color" id="color4" value="#4ECDC4" style="display: none;">
+            <label for="color4" class="colorLabel" style="background-color: #4ECDC4;"></label>
+            
+            <input type="radio" name="color" id="color5" value="#FFCB77" style="display: none;">
+            <label for="color5" class="colorLabel" style="background-color: #FFCB77;"></label>
+        </div>
+        
+        <div id="tools" style="display: inline;">
+            <input type="radio" name="tool" id="bucket" style="display: none;">
+            <label for="bucket"><img src="assets/bucket.svg" alt=""></label>
+            <input type="radio" name="tool" id="pen" style="display: none;">
+            <label for="pen"><img src="assets/pencil.svg" alt=""></label>
+        </div>
+    </div>
+
+</body>
+</html>

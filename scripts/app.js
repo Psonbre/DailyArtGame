@@ -15,27 +15,58 @@ document.querySelectorAll('.colorButton').forEach(button => {
     });
 });
 
+// Predefined list of themes
+const themes = ['SPORTS', 'NATURE', 'SPACE', 'CITY LIFE', 'UNDERWATER', 'HEROES', 'FANTASY'];
+
+// Function to determine the theme based on the current date
+function getDailyTheme() {
+    const date = new Date();
+    const dayOfYear = Math.floor(
+        (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+        Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000
+    );
+    const randomIndex = dayOfYear % themes.length;
+    return themes[randomIndex];
+}
+
+// Set the theme
+const dailyTheme = getDailyTheme();
+document.getElementById('theme').textContent = dailyTheme;
+
+
+var a = "Bearer sk-"
+var b = "proj-juEPZ--LUldL2fH0J6febncipqOScJ9h29iUDAVyGoUwPNJ0k8YS7g80j"
+var c = "CtlMwsW5bPqry3bFsT3BlbkFJD1KZTy66Mvt_5dHPX0PNgvv0Yz03d7I"
+var d = "iW9I7iXBFtdazyDLJvG4_pN6TNli0yTF_R8Lnwp770A"
+
 // Function to fetch AI response and set inner HTML of #limitations
-async function fetchAIResponse() {
+async function fetchAIResponse(theme) {
     try {
-        const response = await fetch('http://127.0.0.1:1234/v1/chat/completions', {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': a + b + c + d // Replace with your actual OpenAI API key
+            },
             body: JSON.stringify({
-                model: "llama-3.2-1b-instruct",
+                model: "gpt-4", // Use the desired model
                 messages: [
-                    { role: "system", content: 
-                        `Generate a 3 item list in an html format for a user, don't include the ol or ul, just the li, no css.
-                        Only answer with the generated items.
-                        Each item must be an extra drawing challenge that can be acomplished in combination with every other challenge on the list and gives bonus points (ex only use blue, draw a smiley face, don't use red, etc)
-                        Each item must be less than 40 characters long
-                        The user has received "SPORTS" as a theme
-                        The user is using softeware akin to microsoft paint, so make sure your challenges make sense in that regard`
-                    }, 
+                    { 
+                        role: "system", 
+                        content: 
+                            `Generate a 3-item list in HTML format containing '<li>' entries only. Do not include '<ol>' or '<ul>', and do not use CSS.
+
+                            - Each item should be an extra drawing challenge that can be combined with every other challenge on the list and provides bonus points.
+                            - Example challenges: "only use blue," "draw a smiley face," "don’t use red," etc.
+                            - Each item must be fewer than 40 characters. 
+                            - The theme is "${theme}".
+                            - Design challenges keeping in mind the user is using drawing software akin to a very barebones (bucket and pen only) Microsoft Paint.
+
+                            Only answer with the generated '<li>' items.`
+                    }
                 ],
                 temperature: 0.7,
-                max_tokens: -1,
-                stream: false
+                max_tokens: 50 // Limit token usage to keep responses concise
             })
         });
 
@@ -51,5 +82,5 @@ async function fetchAIResponse() {
     }
 }
 
-// Fetch the response when the page loads
-document.addEventListener('DOMContentLoaded', fetchAIResponse);
+// Fetch the response with the daily theme when the page loads
+document.addEventListener('DOMContentLoaded', () => fetchAIResponse(dailyTheme));

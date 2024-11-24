@@ -17,6 +17,11 @@ export default class CanvasDrawing {
     }
 
     setupEvents() {
+
+        document.getElementById('trash').addEventListener('click', () => {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        })
+
         // Handle color changes
         document.querySelectorAll('input[name="color"]').forEach((radio) => {
             radio.addEventListener('change', (e) => {

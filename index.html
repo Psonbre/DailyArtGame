@@ -3,14 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas with Bucket Tool</title>
+    <title>Human Art</title>
     <link rel="stylesheet" href="style.css">
     <script type="module" src="scripts/app.js" defer></script>
 </head>
 <body>
-    <span><span style="font-size: 60pt; margin-bottom: 0;">Human </span> <span style="font-size: 60pt; font-family: 'Courier New', Courier, monospace;">Art</span></span> 
-    <span style="font-size: 40pt; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
-    <canvas id="drawCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+    <span><span style="font-size: 3vw; margin-bottom: 0;">Human </span> <span style="font-size:  3vw; font-family: 'Courier New', Courier, monospace;">Art</span></span> 
+    <span style="font-size: 2vw; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
+    <div id="canvasWrapper">
+        <div class="side-text left">Today's Theme is ... 
+            <p>
+                <span id="theme" style="font-size: 3vw;"><b><u>SPACE</u></b>!</span> 
+            </p>
+        </div>
+        <canvas id="drawCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+        <div class="side-text right">Your limitations are :
+            <ol style="font-size: 1.5vw;">
+                <b>
+                    <li>Only use shades of blue</li>
+                    <li>Include a smiley face</li>
+                    <li>Use thick lines</li>
+                </b>
+            </ol>
+        </div>
+    </div>    
+    
+    
     <div id="toolbar" style="margin-top: 1%;">
         <div id="presetColors" style="display: inline;">
             <!-- Black and White -->
@@ -61,14 +79,16 @@
             <label for="bucket"><img src="assets/bucket.svg" alt=""></label>
             <input type="radio" name="tool" id="pen" style="display: none;" checked>
             <label for="pen"><img src="assets/pencil.svg" alt=""></label>
+            <input type="button" id="trash" style="display: none;">
+            <label for="trash"><img src="assets/trash.svg" alt="" style="outline: none; opacity: 1;"></label>
         </div>
         <br>
         <br>
         <div id="penSizeControl" style="display: inline-block; margin-left: 0px;">
-            <canvas id="penPreview" width="38" height="38" style="vertical-align: middle; border-radius: 360px; outline: 2px solid black;"></canvas>
+            <canvas id="penPreview" width="50%" height="50%" style="vertical-align: middle; border-radius: 360px; outline: 2px solid white; box-shadow: 0px 0px 10px black;"></canvas>
             <input type="range" id="penSize" min="2" max="10" value="5" step="0.1">
         </div>
     </div>
-
+    <div id="submit">Submit creation</div>
 </body>
 </html>

@@ -26,7 +26,15 @@ export default class BucketTool {
 
         this.canvas.addEventListener('mousedown', (e) => {
             if (this.isBucketTool) {
-                this.fill(e.offsetX, e.offsetY, this.hexToRgb(this.currentColor));
+                // Map mouse coordinates to canvas resolution
+                const rect = this.canvas.getBoundingClientRect();
+                const scaleX = this.canvas.width / rect.width;
+                const scaleY = this.canvas.height / rect.height;
+
+                const x = Math.floor((e.clientX - rect.left) * scaleX);
+                const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                this.fill(x, y, this.hexToRgb(this.currentColor));
             }
         });
     }
@@ -34,22 +42,36 @@ export default class BucketTool {
     fill(x, y, fillColor) {
         const imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
         const data = imageData.data;
+
+        const startColor = this.getPixelColor(data, x, y);
+
+        if (this.colorsMatch(startColor, [...fillColor, 255])) {
+            return; // Avoid infinite loop if the color is already the same
+        }
+
         const stack = [[x, y]];
-        const targetColor = this.getPixelColor(data, x, y);
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+        const tolerance = 50; // Adjust this value as needed
 
-        if (this.colorsMatch(targetColor, fillColor)) return;
+        while (stack.length > 0) {
+            const [currentX, currentY] = stack.pop();
 
-        while (stack.length) {
-            const [currX, currY] = stack.pop();
-            const index = (currY * this.canvas.width + currX) * 4;
+            const currentIndex = (currentY * width + currentX) * 4;
 
-            if (this.colorsMatch(this.getPixelColor(data, currX, currY), targetColor)) {
-                this.setPixelColor(data, index, fillColor);
+            if (this.colorsMatch(this.getPixelColor(data, currentX, currentY), startColor, tolerance)) {
+                this.setPixelColor(data, currentIndex, fillColor);
 
-                stack.push([currX + 1, currY]);
-                stack.push([currX - 1, currY]);
-                stack.push([currX, currY + 1]);
-                stack.push([currX, currY - 1]);
+                // Add all 8 neighbors to the stack
+                if (currentX > 0) stack.push([currentX - 1, currentY]); // Left
+                if (currentX < width - 1) stack.push([currentX + 1, currentY]); // Right
+                if (currentY > 0) stack.push([currentX, currentY - 1]); // Top
+                if (currentY < height - 1) stack.push([currentX, currentY + 1]); // Bottom
+
+                if (currentX > 0 && currentY > 0) stack.push([currentX - 1, currentY - 1]); // Top-left
+                if (currentX < width - 1 && currentY > 0) stack.push([currentX + 1, currentY - 1]); // Top-right
+                if (currentX > 0 && currentY < height - 1) stack.push([currentX - 1, currentY + 1]); // Bottom-left
+                if (currentX < width - 1 && currentY < height - 1) stack.push([currentX + 1, currentY + 1]); // Bottom-right
             }
         }
 
@@ -68,8 +90,13 @@ export default class BucketTool {
         data[index + 3] = 255;
     }
 
-    colorsMatch(a, b) {
-        return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
+    colorsMatch(a, b, tolerance = 50) {
+        return (
+            Math.abs(a[0] - b[0]) <= tolerance &&
+            Math.abs(a[1] - b[1]) <= tolerance &&
+            Math.abs(a[2] - b[2]) <= tolerance &&
+            Math.abs(a[3] - b[3]) <= tolerance
+        );
     }
 
     hexToRgb(hex) {

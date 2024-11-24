@@ -8,31 +8,65 @@
     <script type="module" src="scripts/app.js" defer></script>
 </head>
 <body>
+    <span><span style="font-size: 60pt; margin-bottom: 0;">Human </span> <span style="font-size: 60pt; font-family: 'Courier New', Courier, monospace;">Art</span></span> 
+    <span style="font-size: 40pt; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
     <canvas id="drawCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
-    
     <div id="toolbar" style="margin-top: 1%;">
         <div id="presetColors" style="display: inline;">
-            <input type="radio" name="color" id="color1" value="#2B2D42" style="display: none;">
-            <label for="color1" class="colorLabel" style="background-color: #2B2D42;"></label>
-            
-            <input type="radio" name="color" id="color2" value="#EF233C" style="display: none;">
-            <label for="color2" class="colorLabel" style="background-color: #EF233C;"></label>
-            
-            <input type="radio" name="color" id="color3" value="#8D99AE" style="display: none;">
-            <label for="color3" class="colorLabel" style="background-color: #8D99AE;"></label>
-            
-            <input type="radio" name="color" id="color4" value="#4ECDC4" style="display: none;">
-            <label for="color4" class="colorLabel" style="background-color: #4ECDC4;"></label>
-            
-            <input type="radio" name="color" id="color5" value="#FFCB77" style="display: none;">
-            <label for="color5" class="colorLabel" style="background-color: #FFCB77;"></label>
+            <!-- Black and White -->
+            <input type="radio" name="color" id="color1" value="#000000" style="display: none;" checked>
+            <label for="color1" class="colorLabel" style="background-color: #000000;"></label>
+
+            <input type="radio" name="color" id="color2" value="#ffffff" style="display: none;">
+            <label for="color2" class="colorLabel" style="background-color: #ffffff;"></label>
+
+            <!-- Spectrum Colors -->
+            <input type="radio" name="color" id="color3" value="#ff0000" style="display: none;">
+            <label for="color3" class="colorLabel" style="background-color: #ff0000;"></label> <!-- Red -->
+
+            <input type="radio" name="color" id="color4" value="#ff7f00" style="display: none;">
+            <label for="color4" class="colorLabel" style="background-color: #ff7f00;"></label> <!-- Orange -->
+
+            <input type="radio" name="color" id="color5" value="#ffff00" style="display: none;">
+            <label for="color5" class="colorLabel" style="background-color: #ffff00;"></label> <!-- Yellow -->
+
+            <input type="radio" name="color" id="color6" value="#7fff00" style="display: none;">
+            <label for="color6" class="colorLabel" style="background-color: #7fff00;"></label> <!-- Chartreuse -->
+            <br>
+            <input type="radio" name="color" id="color7" value="#00ff00" style="display: none;">
+            <label for="color7" class="colorLabel" style="background-color: #00ff00;"></label> <!-- Green -->
+
+            <input type="radio" name="color" id="color8" value="#00ff7f" style="display: none;">
+            <label for="color8" class="colorLabel" style="background-color: #00ff7f;"></label> <!-- Spring Green -->
+
+            <input type="radio" name="color" id="color9" value="#00ffff" style="display: none;">
+            <label for="color9" class="colorLabel" style="background-color: #00ffff;"></label> <!-- Cyan -->
+
+            <input type="radio" name="color" id="color10" value="#007fff" style="display: none;">
+            <label for="color10" class="colorLabel" style="background-color: #007fff;"></label> <!-- Azure -->
+
+            <input type="radio" name="color" id="color11" value="#0000ff" style="display: none;">
+            <label for="color11" class="colorLabel" style="background-color: #0000ff;"></label> <!-- Blue -->
+
+            <input type="radio" name="color" id="color12" value="#7f00ff" style="display: none;">
+            <label for="color12" class="colorLabel" style="background-color: #7f00ff;"></label> <!-- Violet -->
+
+            <input type="radio" name="color" id="color13" value="#ff00ff" style="display: none;">
+            <label for="color13" class="colorLabel" style="background-color: #ff00ff;"></label> <!-- Magenta -->
         </div>
-        
-        <div id="tools" style="display: inline;">
+        <br>
+        <br>
+        <div id="tools" style="display: inline; ">
             <input type="radio" name="tool" id="bucket" style="display: none;">
             <label for="bucket"><img src="assets/bucket.svg" alt=""></label>
-            <input type="radio" name="tool" id="pen" style="display: none;">
+            <input type="radio" name="tool" id="pen" style="display: none;" checked>
             <label for="pen"><img src="assets/pencil.svg" alt=""></label>
+        </div>
+        <br>
+        <br>
+        <div id="penSizeControl" style="display: inline-block; margin-left: 0px;">
+            <canvas id="penPreview" width="38" height="38" style="vertical-align: middle; border-radius: 360px; outline: 2px solid black;"></canvas>
+            <input type="range" id="penSize" min="2" max="10" value="5" step="0.1">
         </div>
     </div>
 

@@ -12,6 +12,10 @@ export default class CanvasDrawing {
         this.drawing = false; // Tracks drawing state
         this.isPenTool = true; // Tracks active tool
 
+        // Fill canvas with white background
+        this.context.fillStyle = '#ffffff';
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.setupEvents();
         this.updatePenPreview();
     }
@@ -19,7 +23,8 @@ export default class CanvasDrawing {
     setupEvents() {
 
         document.getElementById('trash').addEventListener('click', () => {
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+            this.context.fillStyle = '#ffffff';
+            this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         })
 
         // Handle color changes

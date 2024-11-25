@@ -10,7 +10,7 @@
 <body>
     <span><span style="font-size: 3vw; margin-bottom: 0;">Human </span> <span style="font-size:  3vw; font-family: 'Courier New', Courier, monospace;">Art</span></span> 
     <span style="font-size: 2vw; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
-    <div id="drawingSpace" style="display: block;">
+    <div id="drawingSpace" style="display: none;">
         <div id="canvasWrapper">
             <div class="side-text left">Today's Theme is ... 
                 <p>
@@ -75,11 +75,11 @@
             <br>
             <div id="tools" style="display: inline; ">
                 <input type="radio" name="tool" id="bucket" style="display: none;">
-                <label for="bucket"><img src="assets/bucket.svg" alt=""></label>
+                <label for="bucket"><img src="assets/bucket.svg" alt="" draggable="false"></label>
                 <input type="radio" name="tool" id="pen" style="display: none;" checked>
-                <label for="pen"><img src="assets/pencil.svg" alt=""></label>
+                <label for="pen"><img src="assets/pencil.svg" alt="" draggable="false"></label>
                 <input type="button" id="trash" style="display: none;">
-                <label for="trash"><img src="assets/trash.svg" alt="" style="outline: none; opacity: 1;"></label>
+                <label for="trash"><img src="assets/trash.svg" alt="" style="outline: none; opacity: 1;" draggable="false"></label>
             </div>
             <br>
             <br>

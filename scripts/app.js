@@ -84,8 +84,10 @@ async function fetchAIResponse(theme) {
 function cleanUpLocalStorage() {
     const currentTheme = `bonuses_${getDailyTheme()}`;
     const currentDrawing = `canvasDrawing_${getDailyTheme()}`;
+    const currentFeedback = `feedback_${getDailyTheme()}`;
+    const currentRating = `rating_${getDailyTheme()}`;
     Object.keys(localStorage).forEach(key => {
-        if (currentTheme != key && currentDrawing != key) {
+        if (currentTheme != key && currentDrawing != key && currentFeedback != key && currentRating != key) {
             localStorage.removeItem(key);
         }
     });
@@ -94,7 +96,8 @@ function cleanUpLocalStorage() {
 
 document.getElementById('submit').addEventListener('click', async () => {
     const canvas = document.getElementById('drawCanvas');
-    const dataUrl = canvas.toDataURL('image/png')
+    const dataUrl = localStorage.getItem(`canvasDrawing_${getDailyTheme()}`)
+    if (!dataUrl) return
     const base64Image = dataUrl.split(',')[1]; // Get Base64 string without prefix
     const theme = getDailyTheme()
     const bonusesKey = `bonuses_${theme}`
@@ -107,7 +110,8 @@ document.getElementById('submit').addEventListener('click', async () => {
     document.getElementById("feedback").style = "display : block"
     document.getElementById("rating").textContent = feedback.rating +"/10"
     document.getElementById("textFeedback").textContent = "\"" + feedback.feedback +"\"- AI"
-
+    localStorage.setItem("feedback_"+getDailyTheme(), feedback.feedback)
+    localStorage.setItem("rating_"+getDailyTheme(), feedback.rating)
 });
 
 async function analyzeImage(base64Image, theme, bonuses) {
@@ -175,6 +179,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('theme').textContent = dailyTheme;
     fetchAIResponse(dailyTheme); // Fetch or retrieve bonuses for the theme
     cleanUpLocalStorage();
-    canvasDrawing.loadCanvasState()
+    const feedback = localStorage.getItem("feedback_"+getDailyTheme())
+    const rating = localStorage.getItem("rating_"+getDailyTheme())
+    const dataUrl = localStorage.getItem(`canvasDrawing_${getDailyTheme()}`)
+
+    if (feedback && rating && dataUrl){
+        document.getElementById("finalImage").src = dataUrl
+        document.getElementById("loading").style = "display : none"
+        document.getElementById("feedback").style = "display : block"
+        document.getElementById("rating").textContent = rating +"/10"
+        document.getElementById("textFeedback").textContent = "\"" + feedback +"\"- AI"
+    }
+    else{
+        document.getElementById("drawingSpace").style = "display : block"
+        canvasDrawing.loadCanvasState()
+    }
 });
 

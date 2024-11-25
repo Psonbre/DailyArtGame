@@ -114,6 +114,23 @@ document.getElementById('submit').addEventListener('click', async () => {
     localStorage.setItem("rating_"+getDailyTheme(), feedback.rating)
 });
 
+
+document.getElementById('share').addEventListener('click', () => {
+    const content = document.getElementById('body');
+    document.getElementById('share').style = "display : none"
+    html2canvas(content).then((canvas) => {
+        // Convert the canvas to a data URL
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png'); // Image format
+        link.download = 'Masterpiece.png'; // File name
+        link.click(); // Trigger the download
+    }).catch((err) => {
+        console.error('Failed to capture screenshot:', err);
+    });
+    document.getElementById('share').style = "display : flex"
+});
+
+
 async function analyzeImage(base64Image, theme, bonuses) {
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Art</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script type="module" src="scripts/app.js" defer></script>
 </head>
-<body>
+<body id="body">
     <span><span style="font-size: 3vw; margin-bottom: 0;">Human </span> <span style="font-size:  3vw; font-family: 'Courier New', Courier, monospace;">Art</span></span> 
     <span style="font-size: 2vw; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
     <div id="drawingSpace" style="display: none;">
@@ -100,6 +101,7 @@
             <p id="rating">Requesting feedback...</p>
             <p id="textFeedback"></p>
         </div>
+        <div id="share">Download</div>
     </div>
 </body>
 </html>

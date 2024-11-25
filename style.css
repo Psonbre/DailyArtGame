@@ -155,7 +155,7 @@ input[name="color"]:checked + .colorLabel {
     left: calc(100% + 20%); /* Place to the right of the canvas with a 20px gap */
 }
 
-#submit{
+#submit, #share{
     margin-top: 2%;
     display: flex;
     justify-content: center;
@@ -177,13 +177,15 @@ input[name="color"]:checked + .colorLabel {
     margin-right: auto;
 }
 
-#submit:hover{
+#submit:hover, #share:hover{
     outline: 3px solid white;
     transform: scale(1.1);
     cursor: pointer;
 }
 
-
+#share{
+    width: 20%;
+}
 .lds-ring div {
     box-sizing: border-box;
 }

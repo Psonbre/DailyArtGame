@@ -1,5 +1,6 @@
 import CanvasDrawing from './CanvasDrawing.js';
 import BucketTool from './BucketTool.js';
+import themes from './themes.js'; // Import themes
 
 const canvas = document.getElementById('drawCanvas');
 
@@ -15,9 +16,6 @@ document.querySelectorAll('.colorButton').forEach(button => {
     });
 });
 
-// Predefined list of themes
-const themes = ['SPORTS', 'NATURE', 'SPACE', 'CITY LIFE', 'UNDERWATER', 'HEROES', 'FANTASY'];
-
 // Function to determine the theme based on the current date
 function getDailyTheme() {
     const date = new Date();
@@ -29,9 +27,24 @@ function getDailyTheme() {
     return themes[randomIndex];
 }
 
-// Set the theme
-const dailyTheme = getDailyTheme();
-document.getElementById('theme').textContent = dailyTheme;
+// Function to set a cookie with an expiration date
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+}
+
+// Function to get a cookie by name
+function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+        const [key, value] = cookie.split('=');
+        if (key === name) {
+            return decodeURIComponent(value);
+        }
+    }
+    return null;
+}
 
 
 var a = "Bearer sk-"
@@ -39,8 +52,20 @@ var b = "proj-juEPZ--LUldL2fH0J6febncipqOScJ9h29iUDAVyGoUwPNJ0k8YS7g80j"
 var c = "CtlMwsW5bPqry3bFsT3BlbkFJD1KZTy66Mvt_5dHPX0PNgvv0Yz03d7I"
 var d = "iW9I7iXBFtdazyDLJvG4_pN6TNli0yTF_R8Lnwp770A"
 
-// Function to fetch AI response and set inner HTML of #limitations
+// Function to fetch AI response or retrieve from localStorage
 async function fetchAIResponse(theme) {
+    const bonusesKey = `bonuses_${theme}`; // Unique key for the theme's bonuses
+
+    // Check localStorage for existing bonuses
+    const savedBonuses = localStorage.getItem(bonusesKey);
+
+    if (savedBonuses) {
+        console.log('Using saved bonuses from localStorage');
+        document.getElementById('limitations').innerHTML = savedBonuses;
+        return;
+    }
+
+    console.log('Fetching new bonuses');
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -49,7 +74,7 @@ async function fetchAIResponse(theme) {
                 'Authorization': a + b + c + d // Replace with your actual OpenAI API key
             },
             body: JSON.stringify({
-                model: "gpt-4", // Use the desired model
+                model: "gpt-4o-mini", // Use the desired model
                 messages: [
                     { 
                         role: "system", 
@@ -58,9 +83,10 @@ async function fetchAIResponse(theme) {
 
                             - Each item should be an extra drawing challenge that can be combined with every other challenge on the list and provides bonus points.
                             - Example challenges: "only use blue," "draw a smiley face," "don’t use red," etc.
+                            - The challenges must be possible to evaluate based on the drawing only (so no "draw with your left hand" since that's impossible to verify)
                             - Each item must be fewer than 40 characters. 
                             - The theme is "${theme}".
-                            - Design challenges keeping in mind the user is using drawing software akin to a very barebones (bucket and pen only) Microsoft Paint.
+                            - Design challenges keeping in mind the user is using drawing software akin to a very barebones Microsoft Paint.
 
                             Only answer with the generated '<li>' items.`
                     }
@@ -76,11 +102,31 @@ async function fetchAIResponse(theme) {
 
         const data = await response.json();
         const answer = data.choices[0].message.content;
+
+        // Save the new bonuses in localStorage
+        localStorage.setItem(bonusesKey, answer);
+
+        // Update the limitations section with the new bonuses
         document.getElementById('limitations').innerHTML = answer;
     } catch (error) {
         console.error('Error fetching AI response:', error);
     }
 }
 
-// Fetch the response with the daily theme when the page loads
-document.addEventListener('DOMContentLoaded', () => fetchAIResponse(dailyTheme));
+function cleanUpLocalStorage() {
+    const currentThemes = themes.map(theme => `bonuses_${theme}`);
+    Object.keys(localStorage).forEach(key => {
+        if (!currentThemes.includes(key)) {
+            localStorage.removeItem(key);
+        }
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dailyTheme = getDailyTheme(); // Get the theme based on the date
+    document.getElementById('theme').textContent = dailyTheme;
+    fetchAIResponse(dailyTheme); // Fetch or retrieve bonuses for the theme
+    cleanUpLocalStorage();
+});
+

@@ -44,6 +44,35 @@ body{
     box-shadow: 0px 0px 20px black;
 }
 
+#finalImage{
+    background-color: white;
+    width: 16vw;
+    image-rendering: pixelated;
+}
+
+#frame{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50.3%, -51.3%);
+    width: 31.5vw;
+    height: 28.5vw;
+}
+
+#feedback{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3vw;
+    font-weight: bold;
+}
+
+#textFeedback{
+    width: 50vw;
+}
+
+#rating{
+    font-size: 2vw;
+}
+
 .colorLabel {
     transition: all 0.2s;
     display: inline-block;
@@ -137,11 +166,14 @@ input[name="color"]:checked + .colorLabel {
     border-radius: 40px;
     font-size: 1.2vw;
     height: 5%;
+    width: 10%;
     padding: 0.5%;
     vertical-align: auto;
     text-align: center;
     box-shadow: 0px 0px 20px black;
     transition: all 0.1s;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #submit:hover{
@@ -149,3 +181,36 @@ input[name="color"]:checked + .colorLabel {
     transform: scale(1.1);
     cursor: pointer;
 }
+
+
+.lds-ring div {
+    box-sizing: border-box;
+}
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid currentColor;
+    border-radius: 50%;
+    animation: lds-ring 0.9s infinite;
+    border-color: currentColor transparent transparent transparent;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+

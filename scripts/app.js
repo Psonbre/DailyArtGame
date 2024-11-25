@@ -92,12 +92,22 @@ function cleanUpLocalStorage() {
 }
 
 
-document.getElementById('submit').addEventListener('click', () => {
+document.getElementById('submit').addEventListener('click', async () => {
     const canvas = document.getElementById('drawCanvas');
-    const base64Image = canvas.toDataURL('image/png').split(',')[1]; // Get Base64 string without prefix
+    const dataUrl = canvas.toDataURL('image/png')
+    const base64Image = dataUrl.split(',')[1]; // Get Base64 string without prefix
     const theme = getDailyTheme()
     const bonusesKey = `bonuses_${theme}`
-    analyzeImage(base64Image, theme, localStorage.getItem(bonusesKey)); // Call the function to analyze the image
+
+    document.getElementById("drawingSpace").style = "display : none"
+    document.getElementById("loading").style = "display : block"
+    document.getElementById("finalImage").src = dataUrl
+    const feedback = await analyzeImage(base64Image, theme, localStorage.getItem(bonusesKey)); // Call the function to analyze the image
+    document.getElementById("loading").style = "display : none"
+    document.getElementById("feedback").style = "display : block"
+    document.getElementById("rating").textContent = feedback.rating +"/10"
+    document.getElementById("textFeedback").textContent = "\"" + feedback.feedback +"\"- AI"
+
 });
 
 async function analyzeImage(base64Image, theme, bonuses) {
@@ -116,7 +126,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
                         content: [
                             { type: "text", text: `You are an art critic evaluating digital drawings based on a given theme and bonuses. Provide feedback as JSON with the following structure:
                             {
-                                "rating": <decimal between 1.0 and 10.0>,
+                                "rating": <decimal between 0.0 and 11.0, you can ignore these limits if you deem it appropriate>,
                                 "feedback": <string summarizing strengths and weaknesses in relation to the theme and bonuses. Always a single line>
                             }` }
                         ]
@@ -127,6 +137,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
                             { type: "text", text: `
                                 Evaluate the following image for its alignment with the theme "${theme}" and the bonuses "${bonuses}". 
                                 Respond only with the JSON feedback, and do not include any additional text or formatting.
+                                If the image you receive is innapropriate or imature, roast the artist based on their childish drawing.
                             ` },
                             { 
                                 type: "image_url", 
@@ -150,8 +161,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
 
         // Parse the JSON response to display or handle the feedback
         const feedback = JSON.parse(data.choices[0].message.content);
-        console.log('Rating:', feedback.rating);
-        console.log('Feedback:', feedback.feedback);
+        return feedback
 
     } catch (error) {
         console.error('Error analyzing image:', error);

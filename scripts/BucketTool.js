@@ -1,7 +1,7 @@
 export default class BucketTool {
     constructor(canvas) {
         this.canvas = canvas;
-        this.context = canvas.getContext('2d');
+        this.context = canvas.getContext('2d', { willReadFrequently: true });
         this.isBucketTool = false;
         this.currentColor = '#000000';
         this.setupEvents();

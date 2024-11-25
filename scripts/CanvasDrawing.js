@@ -1,3 +1,5 @@
+import getDailyTheme from "./themes.js";
+
 export default class CanvasDrawing {
     constructor(canvas) {
         this.canvas = canvas;
@@ -25,6 +27,7 @@ export default class CanvasDrawing {
         document.getElementById('trash').addEventListener('click', () => {
             this.context.fillStyle = '#ffffff';
             this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.saveCanvasState()
         })
 
         // Handle color changes
@@ -54,7 +57,6 @@ export default class CanvasDrawing {
         // Mouse events for drawing
         this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
         this.canvas.addEventListener('mouseup', () => this.stopDrawing());
-        this.canvas.addEventListener('mouseleave', () => this.stopDrawing());
         this.canvas.addEventListener('mousemove', (e) => this.draw(e));
     }
 
@@ -65,8 +67,26 @@ export default class CanvasDrawing {
     }
 
     stopDrawing() {
+        this.saveCanvasState()
         this.drawing = false;
         this.context.beginPath(); // Reset path
+    }
+
+    saveCanvasState() {
+        const dataURL = this.canvas.toDataURL('image/png');
+        localStorage.setItem('canvasDrawing_'+getDailyTheme(), dataURL);
+    }
+
+    loadCanvasState() {
+        const savedData = localStorage.getItem('canvasDrawing_'+getDailyTheme());
+
+        if (savedData) {
+            const img = new Image();
+            img.src = savedData;
+            img.onload = () => {
+                this.context.drawImage(img, 0, 0);
+            };
+        }
     }
 
     draw(e) {

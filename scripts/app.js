@@ -1,6 +1,6 @@
 import CanvasDrawing from './CanvasDrawing.js';
 import BucketTool from './BucketTool.js';
-import themes from './themes.js'; // Import themes
+import getDailyTheme from './themes.js'; // Import themes
 
 var a = "Bearer sk-"
 var b = "proj-juEPZ--LUldL2fH0J6febncipqOScJ9h29iUDAVyGoUwPNJ0k8YS7g80j"
@@ -19,18 +19,6 @@ document.querySelectorAll('.colorButton').forEach(button => {
         bucketTool.currentColor = color;
     });
 });
-
-// Function to determine the theme based on the current date
-function getDailyTheme() {
-    const date = new Date();
-    const dayOfYear = Math.floor(
-        (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
-        Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000
-    );
-    const randomIndex = dayOfYear % themes.length;
-    return themes[randomIndex];
-}
-
 
 // Function to fetch AI response or retrieve from localStorage
 async function fetchAIResponse(theme) {
@@ -95,8 +83,9 @@ async function fetchAIResponse(theme) {
 
 function cleanUpLocalStorage() {
     const currentTheme = `bonuses_${getDailyTheme()}`;
+    const currentDrawing = `canvasDrawing_${getDailyTheme()}`;
     Object.keys(localStorage).forEach(key => {
-        if (currentTheme != key) {
+        if (currentTheme != key && currentDrawing != key) {
             localStorage.removeItem(key);
         }
     });
@@ -176,5 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('theme').textContent = dailyTheme;
     fetchAIResponse(dailyTheme); // Fetch or retrieve bonuses for the theme
     cleanUpLocalStorage();
+    canvasDrawing.loadCanvasState()
 });
 

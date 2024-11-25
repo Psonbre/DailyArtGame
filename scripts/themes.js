@@ -49,4 +49,14 @@ const themes = [
     'DEADLY MAZES', 'HORIZONS', 'FIELDS OF DREAMS', 'FIRE DANCERS'
 ];
 
-export default themes;
+function getDailyTheme() {
+    const date = new Date();
+    const dayOfYear = Math.floor(
+        (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+        Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000
+    );
+    const randomIndex = dayOfYear % themes.length;
+    return themes[randomIndex];
+}
+
+export default getDailyTheme ;

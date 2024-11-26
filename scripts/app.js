@@ -50,7 +50,7 @@ async function fetchAIResponse(theme) {
                             `Generate a 3-item list in HTML format containing '<li>' entries only. Do not include '<ol>' or '<ul>', and do not use CSS.
 
                             - Each item should be an extra drawing challenge that could provides bonus points.
-                            - Example challenges: "make it romantic" "include a smiley face," "don’t use red," etc.
+                            - Example challenges: "make it romantic" "include a smiley face," "don’t use red," etc. The user does not have access to multiple shades of the same color so keep that in mind.
                             - The challenges must be possible to evaluate based on the drawing only (so no "draw with your left hand" since that's impossible to verify)
                             - Each item must be fewer than 100 characters. 
                             - The theme is "${theme}".
@@ -110,6 +110,8 @@ document.getElementById('submit').addEventListener('click', async () => {
     document.getElementById("feedback").style = "display : block"
     document.getElementById("rating").textContent = feedback.rating +"/10"
     document.getElementById("textFeedback").textContent = "\"" + feedback.feedback +"\"- AI"
+    document.getElementById("finalTheme").textContent = getDailyTheme()
+    document.getElementById("finalLimitations").innerHTML = localStorage.getItem("bonuses_"+getDailyTheme())
     localStorage.setItem("feedback_"+getDailyTheme(), feedback.feedback)
     localStorage.setItem("rating_"+getDailyTheme(), feedback.rating)
 });
@@ -145,7 +147,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
                     {
                         role: "system",
                         content: [
-                            { type: "text", text: `You are an art critic evaluating digital drawings based on a given theme and bonuses. Provide feedback as JSON with the following structure:
+                            { type: "text", text: `You are an art critic evaluating digital drawings based on a given theme and bonuses. If the image you receive is innapropriate or imature, roast the artist based on their childish drawing, otherwise compliment the art.  Provide feedback as JSON with the following structure:
                             {
                                 "rating": <decimal between 0.0 and 11.0, you can ignore these limits if you deem it appropriate>,
                                 "feedback": <string summarizing strengths and weaknesses in relation to the theme and bonuses. Always a single line>
@@ -158,7 +160,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
                             { type: "text", text: `
                                 Evaluate the following image for its alignment with the theme "${theme}" and the bonuses "${bonuses}". 
                                 Respond only with the JSON feedback, and do not include any additional text or formatting.
-                                If the image you receive is innapropriate or imature, roast the artist based on their childish drawing.
+                                
                             ` },
                             { 
                                 type: "image_url", 
@@ -206,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("feedback").style = "display : block"
         document.getElementById("rating").textContent = rating +"/10"
         document.getElementById("textFeedback").textContent = "\"" + feedback +"\"- AI"
+        document.getElementById("finalTheme").textContent = getDailyTheme()
+        document.getElementById("finalLimitations").innerHTML = localStorage.getItem("bonuses_"+getDailyTheme())
     }
     else{
         document.getElementById("drawingSpace").style = "display : block"

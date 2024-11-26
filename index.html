@@ -13,13 +13,13 @@
     <span style="font-size: 2vw; font-family: 'Courier New', Courier, monospace; font-weight: bold; margin-bottom: 40px;">100% human generated !</span>
     <div id="drawingSpace" style="display: none;">
         <div id="canvasWrapper">
-            <div class="side-text left">Today's Theme is ... 
+            <div class="side-text left">Today's Theme is
                 <p>
                     <span id="theme" style="font-size: 3vw; font-weight: bold;"></span> 
                 </p>
             </div>
             <canvas id="drawCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
-            <div class="side-text right">Bonus :
+            <div class="side-text right">Bonus
                 <ol style="font-size: 1vw;">
                     <b id="limitations" style="text-align: left;">
                         Still generating...
@@ -39,38 +39,34 @@
                 <label for="color2" class="colorLabel" style="background-color: #ffffff;"></label>
     
                 <!-- Spectrum Colors -->
-                <input type="radio" name="color" id="color3" value="#ff0000" style="display: none;">
-                <label for="color3" class="colorLabel" style="background-color: #ff0000;"></label> <!-- Red -->
+                <input type="radio" name="color" id="color3" value="#7F7F7F" style="display: none;">
+                <label for="color3" class="colorLabel" style="background-color: #7F7F7F;"></label> <!-- Red -->
     
-                <input type="radio" name="color" id="color4" value="#ff7f00" style="display: none;">
-                <label for="color4" class="colorLabel" style="background-color: #ff7f00;"></label> <!-- Orange -->
-    
-                <input type="radio" name="color" id="color5" value="#ffff00" style="display: none;">
-                <label for="color5" class="colorLabel" style="background-color: #ffff00;"></label> <!-- Yellow -->
-    
-                <input type="radio" name="color" id="color6" value="#7fff00" style="display: none;">
-                <label for="color6" class="colorLabel" style="background-color: #7fff00;"></label> <!-- Chartreuse -->
+                <input type="radio" name="color" id="color13" value="#B97A57" style="display: none;">
+                <label for="color13" class="colorLabel" style="background-color: #B97A57;"></label> <!-- Magenta -->
+
                 <br>
-                <input type="radio" name="color" id="color7" value="#00ff00" style="display: none;">
-                <label for="color7" class="colorLabel" style="background-color: #00ff00;"></label> <!-- Green -->
+
+                <input type="radio" name="color" id="color5" value="#ED1C24" style="display: none;">
+                <label for="color5" class="colorLabel" style="background-color: #ED1C24;"></label> <!-- Yellow -->
     
-                <input type="radio" name="color" id="color8" value="#00ff7f" style="display: none;">
-                <label for="color8" class="colorLabel" style="background-color: #00ff7f;"></label> <!-- Spring Green -->
+                <input type="radio" name="color" id="color6" value="#FF7F27" style="display: none;">
+                <label for="color6" class="colorLabel" style="background-color: #FF7F27;"></label> <!-- Chartreuse -->
+                <input type="radio" name="color" id="color7" value="#FFF200" style="display: none;">
+                <label for="color7" class="colorLabel" style="background-color: #FFF200;"></label> <!-- Green -->
     
-                <input type="radio" name="color" id="color9" value="#00ffff" style="display: none;">
-                <label for="color9" class="colorLabel" style="background-color: #00ffff;"></label> <!-- Cyan -->
+                <input type="radio" name="color" id="color8" value="#22B14C" style="display: none;">
+                <label for="color8" class="colorLabel" style="background-color: #22B14C;"></label> <!-- Spring Green -->
     
-                <input type="radio" name="color" id="color10" value="#007fff" style="display: none;">
-                <label for="color10" class="colorLabel" style="background-color: #007fff;"></label> <!-- Azure -->
+                <input type="radio" name="color" id="color9" value="#00A2E8" style="display: none;">
+                <label for="color9" class="colorLabel" style="background-color: #00A2E8;"></label> <!-- Cyan -->
     
-                <input type="radio" name="color" id="color11" value="#0000ff" style="display: none;">
-                <label for="color11" class="colorLabel" style="background-color: #0000ff;"></label> <!-- Blue -->
+                <input type="radio" name="color" id="color10" value="#3F48CC" style="display: none;">
+                <label for="color10" class="colorLabel" style="background-color: #3F48CC;"></label> <!-- Azure -->
     
-                <input type="radio" name="color" id="color12" value="#7f00ff" style="display: none;">
-                <label for="color12" class="colorLabel" style="background-color: #7f00ff;"></label> <!-- Violet -->
+                <input type="radio" name="color" id="color11" value="#A349A4" style="display: none;">
+                <label for="color11" class="colorLabel" style="background-color: #A349A4;"></label> <!-- Blue -->
     
-                <input type="radio" name="color" id="color13" value="#ff00ff" style="display: none;">
-                <label for="color13" class="colorLabel" style="background-color: #ff00ff;"></label> <!-- Magenta -->
             </div>
             <br>
             <br>
@@ -93,10 +89,22 @@
     </div>
     <div id="loading" class="lds-ring" style="display: none;"><div></div></div>
     <div id="feedback" style="display: none;">
-        <div style="position: relative; margin-top: 5vw;">
-            <img id="finalImage" src="" alt="">
+        <div style="position: relative; display: inline-block; margin-top: 5vw;">
+            <div class="side-text left">Today's theme was
+                <p>
+                    <span id="finalTheme" style="font-size: 3vw; font-weight: bold;"></span> 
+                </p>
+            </div>
             <img id="frame" src="./assets/cadre.png" alt="">
-        </div>
+            <img id="finalImage">
+            <div class="side-text right">Bonus
+                <ol style="font-size: 1vw;">
+                    <b id="finalLimitations" style="text-align: left;">
+                        Still generating...
+                    </b>
+                </ol>
+            </div>
+        </div>    
         <div style="margin-top: 5vw;">
             <p id="rating">Requesting feedback...</p>
             <p id="textFeedback"></p>

@@ -57,6 +57,7 @@ export default class CanvasDrawing {
         // Mouse events for drawing
         this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
         this.canvas.addEventListener('mouseup', () => this.stopDrawing());
+        this.canvas.addEventListener('mouseout', () => this.stopDrawing());
         this.canvas.addEventListener('mousemove', (e) => this.draw(e));
     }
 

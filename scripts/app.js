@@ -147,7 +147,7 @@ async function analyzeImage(base64Image, theme, bonuses) {
                     {
                         role: "system",
                         content: [
-                            { type: "text", text: `You are an art critic evaluating digital drawings based on a given theme and bonuses. If the image you receive is innapropriate or imature, roast the artist based on their childish drawing, otherwise compliment the art.  Provide feedback as JSON with the following structure:
+                            { type: "text", text: `You are an art critic evaluating digital drawings based on a given theme and bonuses. If the image you receive is innapropriate or imature, roast the artist. Keep in mind that the artist has very limited tools so don't be too harsh on the simplicity of the drawing. Provide feedback as JSON with the following structure:
                             {
                                 "rating": <decimal between 0.0 and 11.0, you can ignore these limits if you deem it appropriate>,
                                 "feedback": <string summarizing strengths and weaknesses in relation to the theme and bonuses. Always a single line>
